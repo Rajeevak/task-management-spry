@@ -38,25 +38,32 @@ const NavigationBar = () => {
   const classes = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
-  const isAllTasks = location.pathname === "/task-management";
-  const isCompletedTasks = location.pathname === "/task-management/completed";
+  const tabs = [
+    {
+      label: "All Tasks",
+      path: "/task-management",
+    },
+    {
+      label: "Completed Tasks",
+      path: "/task-management/completed",
+    },
+  ];
 
   return (
     <nav className={classes.navBar}>
-      <button
-        type="button"
-        className={`${classes.tab} ${isAllTasks ? classes.activeTab : ""}`}
-        onClick={() => navigate("/task-management")}
-      >
-        All Tasks
-      </button>
-      <button
-        type="button"
-        className={`${classes.tab} ${isCompletedTasks ? classes.activeTab : ""}`}
-        onClick={() => navigate("/task-management/completed")}
-      >
-        Completed Tasks
-      </button>
+      {tabs.map((tab) => {
+        const isActive = location.pathname === tab.path;
+        return (
+          <button
+            key={tab.path}
+            type="button"
+            className={`${classes.tab} ${isActive ? classes.activeTab : ""}`}
+            onClick={() => navigate(tab.path)}
+          >
+            {tab.label}
+          </button>
+        );
+      })}
     </nav>
   );
 };
